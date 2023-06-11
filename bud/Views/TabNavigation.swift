@@ -8,25 +8,36 @@
 import SwiftUI
 
 struct TabNavigation: View {
+    @StateObject var global = Global.current
+    
     var body: some View {
         TabView {
             HomeView()
                 .tabItem {
                     Label("Ínicio", systemImage: "house")
                 }
+                .tag(TabEnum.home)
             
             ExploreView()
                 .tabItem {
-                    Label("Explorar", systemImage: "leaf")
+                    Label("Descubra", systemImage: "leaf")
                 }
+                .tag(TabEnum.explore)
             
             
             ProfileView()
                 .tabItem {
                     Label("Perfil", systemImage: "person")
                 }
+                .tag(TabEnum.profile)
         }
-        .tint(.green)
+        .themed()
+        .onChange(of: global.selectedTab, perform: { value in
+            global.selectedTab = value
+        })
+        .navigationTitle("Resumo")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

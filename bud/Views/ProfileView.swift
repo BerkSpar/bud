@@ -8,12 +8,58 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @StateObject var global = Global.current
+    
+    func unlogged() -> some View {
+        return VStack {
+            Image(systemName: "leaf.fill")
+                .font(.system(size: 40))
+                .foregroundColor(Theme.current.brandColor)
+            
+            Text("Você não veio encontrar suas plantinhas")
+                .font(.title)
+                .multilineTextAlignment(.center)
+                .foregroundColor(Theme.current.brandColor)
+                .bold()
+            
+            NavigationLink {
+                LoginView()
+            } label: {
+                Text("Entrar")
+                    .bold()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 40)
+            }
+            .buttonStyle(.borderedProminent)
+        }
+    }
+    
+    func logged() -> some View {
+        return VStack {
+            Image(systemName: "leaf.fill")
+                .font(.system(size: 40))
+                .foregroundColor(Theme.current.brandColor)
+            
+            Text("Bem vindo, \(global.user?.name ?? "Plantinha")")
+                .font(.title)
+                .multilineTextAlignment(.center)
+                .foregroundColor(Theme.current.brandColor)
+                .bold()
+        }
+    }
+    
+    
     var body: some View {
-        ScrollView {
-            ForEach(Range(1...100)) { value in
-                Text("Profile")
+        VStack(spacing: 16) {
+            if (global.user == nil) {
+                unlogged()
+            } else {
+                logged()
             }
         }
+        .padding([.leading, .trailing], 32)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .themed()
     }
 }
 

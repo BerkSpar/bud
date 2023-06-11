@@ -8,11 +8,44 @@
 import SwiftUI
 
 struct ExploreView: View {
+    @StateObject var controller = ExploreController()
+    
     var body: some View {
-        ScrollView {
-            ForEach(Range(1...100)) { value in
-                Text("Explore")
+        NavigationStack {
+            ScrollView {
+                TextField(text: $controller.searchText) {
+                    Text("O que procura hoje?")
+                }
+                .textFieldStyle(.roundedBorder)
+                .onChange(of: controller.searchText) { newValue in
+                    controller.search()
+                }
+                .padding([.bottom], 16)
+                
+                LazyVGrid(
+                    columns: [
+                        GridItem(spacing: 16),
+                        GridItem()
+                    ],
+                    spacing: 16
+                ) {
+                    ForEach(controller.plants) { plant in
+                        NavigationLink {
+                            DetailView(plant: plant)
+                        } label: {
+                            ImageCard(
+                                imageUrl: plant.imageUrl,
+                                title: plant.name,
+                                subtitle: plant.description
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        
+                    }
+                }
             }
+            .padding([.leading, .trailing], 32)
+            .themed()
         }
     }
 }

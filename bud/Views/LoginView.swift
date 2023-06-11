@@ -8,8 +8,26 @@
 import SwiftUI
 
 struct LoginView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @StateObject var global = Global.current
+    
     var body: some View {
-        Text("Login")
+        ZStack {
+            Button {
+                global.login(username: "", password: "")
+                
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                Text("Entrar")
+                    .bold()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 40)
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding([.leading, .trailing], 32)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .themed()
     }
 }
 

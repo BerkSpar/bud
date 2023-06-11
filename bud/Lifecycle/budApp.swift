@@ -9,9 +9,22 @@ import SwiftUI
 
 @main
 struct budApp: App {
+    func app() -> some View {
+        NavigationStack {
+            OnboardingView()
+        }
+        .themed()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            TabNavigation()
+            app()
         }
+    }
+}
+
+struct budApp_Previews: PreviewProvider {
+    static var previews: some View {
+        budApp().app()
     }
 }

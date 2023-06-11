@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct UserModel: Codable {
+struct UserModel: Codable, Identifiable {
+    var id: UUID = UUID()
+    
     let name: String
     let password: String
     let rememberPassword: Bool
